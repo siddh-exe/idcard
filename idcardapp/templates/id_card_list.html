@@ -1,0 +1,23 @@
+<h2>Select Employee for ID Card</h2>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Emp ID</th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Action</th>
+    </tr>
+
+    {% for emp in employees %}
+    <tr>
+        <td>{{ emp.emp_id }}</td>
+        <td>{{ emp.full_name }}</td>
+        <td>{{ emp.department.dept_name }}</td>
+        <td>
+            <a href="{% url 'generate_id_card' emp.emp_id %}">
+                Generate ID Card
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

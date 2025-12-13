@@ -161,3 +161,16 @@ User = get_user_model()
 def admin_list(request):
     admins = User.objects.filter(is_superuser=True)
     return render(request, "admin_list.html", {"admins": admins})
+
+
+
+from .models import Employee
+
+def id_card_list(request):
+    employees = Employee.objects.select_related("department")
+    return render(request, "id_card_list.html", {"employees": employees})
+
+
+def generate_id_card(request, emp_id):
+    employee = get_object_or_404(Employee, emp_id=emp_id)
+    return render(request, "id_card.html", {"employee": employee})

@@ -1,0 +1,57 @@
+<style>
+.id-card {
+    width: 320px;
+    height: 200px;
+    border: 2px solid #000;
+    padding: 10px;
+    font-family: Arial;
+}
+
+.id-header {
+    text-align: center;
+    font-weight: bold;
+}
+
+.id-body {
+    display: flex;
+    margin-top: 10px;
+}
+
+.photo img {
+    width: 80px;
+    height: 90px;
+    border: 1px solid #000;
+}
+
+.details {
+    margin-left: 10px;
+    font-size: 14px;
+}
+</style>
+
+<div class="id-card">
+    <div class="id-header">
+        COMPANY NAME<br>
+        EMPLOYEE ID CARD
+    </div>
+
+    <div class="id-body">
+        <div class="photo">
+            {% if employee.profile_photo %}
+                <img src="{{ employee.profile_photo.url }}">
+            {% else %}
+                <img src="/static/default-user.png">
+            {% endif %}
+        </div>
+
+        <div class="details">
+            <p><b>ID:</b> {{ employee.emp_id }}</p>
+            <p><b>Name:</b> {{ employee.full_name }}</p>
+            <p><b>Dept:</b> {{ employee.department.dept_name }}</p>
+            <p><b>Position:</b> {{ employee.position }}</p>
+        </div>
+    </div>
+</div>
+
+<br>
+<button onclick="window.print()">Print ID Card</button>
