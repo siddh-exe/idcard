@@ -1,0 +1,47 @@
+<h1>ID Card Management Dashboard</h1>
+
+<hr>
+
+<div style="display:flex; gap:20px; flex-wrap:wrap;">
+
+    <div class="card">
+        <h3>Employees</h3>
+        <p>Total: {{ employee_count }}</p>
+        <a href="{% url 'employee_list' %}">View Employees</a><br>
+        <a href="{% url 'add_employee' %}">Add Employee</a>
+    </div>
+
+    <div class="card">
+        <h3>Departments</h3>
+        <p>Total: {{ department_count }}</p>
+        <a href="{% url 'add_department' %}">Add Department</a>
+    </div>
+
+    <div class="card">
+        <h3>Admins</h3>
+        <p>Total: {{ admin_count }}</p>
+        <a href="{% url 'add_admin' %}">Add Admin</a>
+    </div>
+
+    <div class="card">
+        <h3>ID Cards</h3>
+        <a href="{% url 'id_card_list' %}">Generate ID Card</a>
+    </div>
+
+</div>
+
+<hr>
+
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+
+
+<style>
+.card {
+    border: 1px solid #333;
+    padding: 15px;
+    width: 220px;
+}
+</style>

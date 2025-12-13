@@ -147,7 +147,7 @@ def user_login(request):
 
         if user:
             login(request, user)
-            return redirect("employee_list")
+            return redirect("dashboard")
         else:
             return render(request, "login.html", {"error": "Invalid credentials"})
 
@@ -174,3 +174,19 @@ def id_card_list(request):
 def generate_id_card(request, emp_id):
     employee = get_object_or_404(Employee, emp_id=emp_id)
     return render(request, "id_card.html", {"employee": employee})
+
+
+from django.contrib.auth.decorators import login_required
+from .models import Employee, Department
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+@login_required
+def dashboard(request):
+    context = {
+        "employee_count": Employee.objects.count(),
+        "department_count": Department.objects.count(),
+        "admin_count": User.objects.filter(is_superuser=True).count(),
+    }
+    return render(request, "dashboard.html", context)

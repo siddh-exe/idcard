@@ -6,7 +6,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-  path("", views.index, name="index"),
+#   path("", views.index, name="index"),
   path("add-employee/", views.add_employee, name="add_employee"),
   path("add-department/", views.add_department, name="add_department"),
   path("employees/", views.employee_list, name="employee_list"),
@@ -17,6 +17,7 @@ urlpatterns = [
   path("admins/", views.admin_list, name="admin_list"),
   path("id-card/", views.id_card_list, name="id_card_list"),
   path("id-card/<int:emp_id>/", views.generate_id_card, name="generate_id_card"),
+  path("", views.dashboard, name="dashboard"),
 
 
 
