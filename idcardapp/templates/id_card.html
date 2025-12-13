@@ -1,57 +1,232 @@
-<style>
-.id-card {
-    width: 320px;
-    height: 200px;
-    border: 2px solid #000;
-    padding: 10px;
-    font-family: Arial;
-}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee ID Card</title>
 
-.id-header {
-    text-align: center;
-    font-weight: bold;
-}
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 
-.id-body {
-    display: flex;
-    margin-top: 10px;
-}
+    <style>
+        body {
+            background-color: #eef2f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
 
-.photo img {
-    width: 80px;
-    height: 90px;
-    border: 1px solid #000;
-}
+        .id-card {
+            width: 320px;
+            height: 200px;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            padding: 15px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-.details {
-    margin-left: 10px;
-    font-size: 14px;
-}
-</style>
+        /* Hologram */
+        .hologram {
+            position: absolute;
+            inset: -50%;
+            background: linear-gradient(
+                45deg,
+                rgba(255,0,150,0.08),
+                rgba(0,255,255,0.08),
+                rgba(255,255,0,0.08)
+            );
+            transform: rotate(45deg);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .card-header,
+        .card-body,
+        .card-footer {
+            z-index: 1;
+            position: relative;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding-bottom: 6px;
+        }
+
+        .logo img {
+            height: 30px;
+        }
+
+        .id-title {
+            font-size: 10px;
+            font-weight: 600;
+            background: #0a3d62;
+            color: #fff;
+            padding: 3px 8px;
+            border-radius: 5px;
+            letter-spacing: 1px;
+        }
+
+        .card-body {
+            display: flex;
+            gap: 12px;
+        }
+
+        .photo img {
+            width: 80px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 2px solid #fff;
+            background: #fff;
+        }
+
+        .details .name {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            margin-bottom: 3px;
+        }
+
+        .detail-label {
+            color: #555;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            font-weight: 600;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 18px;
+            border-bottom: 1px solid #777;
+            width: 80px;
+            text-align: center;
+            color: #0a3d62;
+        }
+
+        .barcode img {
+            height: 30px;
+        }
+
+        .print-button-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        button {
+            background: #0a3d62;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #3c6382;
+        }
+
+        /* PRINT FIX */
+        @media print {
+            body {
+                display: block;
+                background: #fff;
+            }
+            .id-card {
+                box-shadow: none;
+                margin: auto;
+            }
+            .print-button-container {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
 
 <div class="id-card">
-    <div class="id-header">
-        COMPANY NAME<br>
-        EMPLOYEE ID CARD
+    <div class="hologram"></div>
+
+    <div class="card-header">
+        <div class="logo">
+            <img src="{% static 'images/company-logo.png' %}" alt="Company Logo">
+
+
+        </div>
+        <div class="id-title">EMPLOYEE ID</div>
     </div>
 
-    <div class="id-body">
+    <div class="card-body">
         <div class="photo">
             {% if employee.profile_photo %}
-                <img src="{{ employee.profile_photo.url }}">
+                <img src="{{ employee.profile_photo.url }}" alt="Employee Photo">
             {% else %}
-                <img src="/static/default-user.png">
+                <img src="https://i.ibb.co/LQkH8kF/user-placeholder.png" alt="Employee Photo">
             {% endif %}
         </div>
 
         <div class="details">
-            <p><b>ID:</b> {{ employee.emp_id }}</p>
-            <p><b>Name:</b> {{ employee.full_name }}</p>
-            <p><b>Dept:</b> {{ employee.department.dept_name }}</p>
-            <p><b>Position:</b> {{ employee.position }}</p>
+            <p class="name">{{ employee.full_name }}</p>
+
+            <div class="detail-row">
+                <span class="detail-label">ID</span>
+                <span class="detail-value">{{ employee.emp_id }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Dept</span>
+                <span class="detail-value">{{ employee.department.dept_name }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Role</span>
+                <span class="detail-value">{{ employee.position }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <div class="signature">
+            {{ authorized_sign|default:"HR Manager" }}
+        </div>
+        <div class="barcode">
+            <img src="{{ employee.barcode.url|default:'https://i.ibb.co/68v8QdF/barcode-placeholder.png' }}" alt="Barcode">
         </div>
     </div>
 </div>
 
-<br>
-<button onclick="window.print()">Print ID Card</button>
+<div class="print-button-container">
+    <button onclick="window.print()">Print ID Card</button>
+</div>
+
+</body>
+</html>
