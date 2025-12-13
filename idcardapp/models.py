@@ -57,7 +57,8 @@ class Employee(models.Model):
 
     department = models.ForeignKey(
         Department,
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT,
+        related_name="employees"
     )
 
     position = models.CharField(max_length=100)

@@ -50,7 +50,12 @@ def add_employee(request):
 from django.shortcuts import render, redirect
 from .forms import DepartmentForm
 
+from .models import Department
+from .forms import DepartmentForm
+
 def add_department(request):
+    query = request.GET.get("q")
+
     if request.method == "POST":
         form = DepartmentForm(request.POST)
         if form.is_valid():
@@ -59,7 +64,58 @@ def add_department(request):
     else:
         form = DepartmentForm()
 
-    return render(request, "add_department.html", {"form": form})
+    departments = Department.objects.all()
+
+    if query:
+        departments = departments.filter(dept_name__icontains=query)
+
+    dept_count = departments.count()
+
+    return render(request, "add_department.html", {
+        "form": form,
+        "departments": departments,
+        "dept_count": dept_count,
+        "query": query
+    })
+
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Department
+from .forms import DepartmentForm
+
+def edit_department(request, dept_id):
+    department = get_object_or_404(Department, dept_id=dept_id)
+
+    if request.method == "POST":
+        form = DepartmentForm(request.POST, instance=department)
+        if form.is_valid():
+            form.save()
+            return redirect("add_department")
+    else:
+        form = DepartmentForm(instance=department)
+
+    return render(request, "edit_department.html", {
+        "form": form
+    })
+
+
+from django.contrib import messages
+from .models import Department
+
+def delete_department(request, dept_id):
+    department = get_object_or_404(Department, dept_id=dept_id)
+
+    if department.employees.exists():
+        messages.error(
+            request,
+            "Cannot delete department. Employees are assigned to it."
+        )
+        return redirect("add_department")
+
+    department.delete()
+    messages.success(request, "Department deleted successfully.")
+    return redirect("add_department")
 
 
 from django.shortcuts import render, get_object_or_404, redirect

@@ -1,23 +1,235 @@
-<h2>Add Admin</h2>
+<!-- Main container for the entire page content -->
+<div class="form-container">
+    <!-- Styled Dashboard Link -->
+    <a href="{% url 'dashboard' %}" class="btn-back">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
 
-<form method="POST">
-    {% csrf_token %}
+    <!-- We wrap everything in a container div to help with centering -->
+    <div class="admin-form-container">
+        <div class="admin-form-wrapper">
+            <!-- Added an icon to the title -->
+            <h2><i class="fas fa-user-plus"></i> Add Admin</h2>
 
-    <label>Email</label>
-    {{ form.email }}
+            <!-- Add a class to the form itself -->
+            <form method="POST" class="admin-form">
+                {% csrf_token %}
 
-    <label>Password</label>
-    {{ form.password }}
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                <!-- The class 'form-input' will be added via forms.py -->
+                {{ form.email }}
 
-    <button type="submit">Create Admin</button>
-</form>
+                <label for="{{ form.password.id_for_label }}">Password</label>
+                <!-- The class 'form-input' will be added via forms.py -->
+                {{ form.password }}
 
-{% if form.errors %}
-    <ul style="color:red;">
-        {% for field in form %}
-            {% for error in field.errors %}
-                <li>{{ error }}</li>
-            {% endfor %}
-        {% endfor %}
-    </ul>
-{% endif %}
+                <!-- Add a class to the button for styling -->
+                <button type="submit" class="admin-button">
+                    <i class="fas fa-check"></i> Create Admin
+                </button>
+            </form>
+
+            <!-- Django's default error list has a class of 'errorlist' we can use -->
+            {% if form.errors %}
+                <div class="error-container">
+                    <ul class="errorlist">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- IMPORTANT: Add Font Awesome for the icons to work -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    /* --- General Body & Font Styling --- */
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        /* A subtle gradient background for more visual interest */
+        background: linear-gradient(135deg, #f0f2f5 0%, #d9e2ec 100%);
+        color: #333;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    /* --- Page Container --- */
+    .form-container {
+        position: relative; /* Needed for positioning the back button */
+        width: 100%;
+        max-width: 420px;
+    }
+
+    /* --- "Back to Dashboard" Button --- */
+    .btn-back {
+        position: absolute;
+        top: -50px; /* Position it above the form card */
+        left: 0;
+        display: inline-flex;
+        align-items: center;
+        color: #606770;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 15px;
+        transition: color 0.2s ease;
+    }
+
+    .btn-back i {
+        margin-right: 8px;
+        transition: transform 0.2s ease;
+    }
+
+    .btn-back:hover {
+        color: #1877f2;
+    }
+
+    .btn-back:hover i {
+        transform: translateX(-3px); /* Slide the arrow on hover */
+    }
+
+    /* --- The "Card" that holds the form --- */
+    .admin-form-wrapper {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 12px; /* More rounded corners */
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); /* A deeper, more modern shadow */
+        text-align: center;
+        border: 1px solid #e0e0e0;
+        /* Add a subtle animation on page load */
+        animation: fadeInScale 0.5s ease-out;
+    }
+
+    /* --- Keyframes for the load animation --- */
+    @keyframes fadeInScale {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* --- Form Headline --- */
+    .admin-form-wrapper h2 {
+        margin-top: 0;
+        margin-bottom: 25px;
+        font-size: 28px;
+        font-weight: 700;
+        color: #1c1e21;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px; /* Space between icon and text */
+    }
+
+    .admin-form-wrapper h2 i {
+        color: #1877f2;
+    }
+
+    /* --- Form Label Styling --- */
+    .admin-form label {
+        display: block;
+        text-align: left;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #606770;
+        font-size: 14px;
+    }
+
+    /* --- Input Field Styling (Enhanced) --- */
+    .form-input {
+        width: 100%;
+        padding: 14px 16px;
+        margin-bottom: 20px;
+        border: 1px solid #dddfe2;
+        border-radius: 8px; /* Slightly more rounded */
+        box-sizing: border-box;
+        font-size: 16px;
+        transition: all 0.3s ease; /* Smooth transition for all properties */
+    }
+
+    /* --- Focus State for Inputs --- */
+    .form-input:focus {
+        border-color: #1877f2;
+        box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.15); /* A more prominent glow */
+        outline: none;
+    }
+
+    /* --- Submit Button Styling --- */
+    .admin-button {
+        width: 100%;
+        padding: 14px;
+        background-color: #1877f2;
+        color: white;
+        border: none;
+        border-radius: 8px; /* Match input fields */
+        font-size: 17px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px; /* Space between icon and text */
+    }
+
+    .admin-button:hover {
+        background-color: #166fe5;
+        transform: translateY(-2px); /* Lift up on hover */
+        box-shadow: 0 5px 15px rgba(24, 119, 242, 0.3);
+    }
+
+    /* Active state for when the button is clicked */
+    .admin-button:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 5px rgba(24, 119, 242, 0.3);
+    }
+
+    /* --- Error List Styling --- */
+    .error-container {
+        margin-top: 20px;
+        animation: shake 0.5s ease-in-out; /* Shake animation on error */
+    }
+
+    /* Keyframes for the shake animation */
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+
+    .errorlist {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        text-align: left;
+    }
+
+    .errorlist li {
+        color: #e74c3c; /* A clearer red */
+        background-color: #fdf2f2;
+        border-left: 4px solid #e74c3c;
+        padding: 12px 15px;
+        margin-bottom: 8px;
+        border-radius: 0 4px 4px 0;
+        font-size: 14px;
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+</style>

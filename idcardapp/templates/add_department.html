@@ -1,10 +1,96 @@
-<form method="POST">
-    {% csrf_token %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Departments</title>
+    <style>
+        /* (All the CSS from the previous answer remains the same) */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f7f6; color: #333; margin: 0; padding: 20px; }
+        .admin-container { max-width: 900px; margin: 20px auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); }
+        .btn-back { display: inline-flex; align-items: center; color: #3498db; text-decoration: none; font-size: 16px; margin-bottom: 20px; }
+        .btn-back:hover { text-decoration: underline; }
+        h2, h3 { color: #2c3e50; border-bottom: 2px solid #e0e0e0; padding-bottom: 10px; margin-top: 0; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-control { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; box-sizing: border-box; }
+        .form-control:focus { outline: none; border-color: #3498db; box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); }
+        .form-inline { display: flex; align-items: center; gap: 10px; }
+        .form-inline .form-control { flex-grow: 1; }
+        .btn { padding: 10px 18px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; text-decoration: none; display: inline-block; transition: background-color 0.2s ease, transform 0.1s ease; }
+        .btn:hover { transform: translateY(-1px); }
+        .btn-primary { background-color: #3498db; color: #ffffff; }
+        .btn-primary:hover { background-color: #2980b9; }
+        .btn-secondary { background-color: #95a5a6; color: #ffffff; }
+        .btn-secondary:hover { background-color: #7f8c8d; }
+        .btn-edit { background-color: #f39c12; color: #ffffff; }
+        .btn-edit:hover { background-color: #e67e22; }
+        .btn-delete { background-color: #e74c3c; color: #ffffff; }
+        .btn-delete:hover { background-color: #c0392b; }
+        .action-disabled { color: #7f8c8d; cursor: not-allowed; font-style: italic; font-size: 14px; }
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .data-table th, .data-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
+        .data-table th { background-color: #f8f9fa; font-weight: 600; }
+        .data-table tbody tr:hover { background-color: #f8f9fa; }
+        .data-table td:last-child { white-space: nowrap; }
+    </style>
+</head>
+<body>
 
-    <div>
-        <label>Department Name</label>
-        {{ form.dept_name }}
+    <div class="admin-container">
+        <a href="{% url 'dashboard' %}" class="btn-back">
+            ⬅ Dashboard
+        </a>
+
+        <h2>Add Department</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <!-- Manually rendered input field with the CSS class -->
+                <input type="text" name="dept_name" id="id_dept_name" class="form-control" placeholder="e.g., Human Resources" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+
+        <hr>
+
+        <h3>Departments ({{ dept_count }})</h3>
+        <form method="GET" class="form-inline">
+            <input type="text" name="q" class="form-control" placeholder="Search department..." value="{{ query }}">
+            <button type="submit" class="btn btn-secondary">Search</button>
+        </form>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Department Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dept in departments %}
+                <tr>
+                    <td>{{ dept.dept_id }}</td>
+                    <td>{{ dept.dept_name }}</td>
+                    <td>
+                        <a href="{% url 'edit_department' dept.dept_id %}" class="btn btn-edit">Edit</a>
+                        {% if dept.employees.count > 0 %}
+                            <span class="action-disabled">
+                                Delete ({{ dept.employees.count }} employees)
+                            </span>
+                        {% else %}
+                            <a href="{% url 'delete_department' dept.dept_id %}" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this department?')">Delete</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No departments found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
-    <button type="submit">Add Department</button>
-</form>
+</body>
+</html>

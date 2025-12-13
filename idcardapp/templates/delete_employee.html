@@ -1,9 +1,118 @@
-<h2>Delete Employee</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Employee</title>
+    <style>
+        /* General Body Styles - Consistent with other admin pages */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background-color: #2c3e50; /* Dark blue-gray background */
+            color: #ecf0f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
 
-<p>Are you sure you want to delete <b>{{ employee.full_name }}</b>?</p>
+        /* Confirmation Container - Styled like a modal/dialog box */
+        .confirmation-container {
+            background-color: #34495e;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
 
-<form method="POST">
-    {% csrf_token %}
-    <button type="submit" style="color:red;">Yes, Delete</button>
-    <a href="{% url 'employee_list' %}">Cancel</a>
-</form>
+        /* Heading Style */
+        .confirmation-container h2 {
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        /* Paragraph Style */
+        .confirmation-container p {
+            font-size: 18px;
+            color: #bdc3c7;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* Bold text inside the paragraph */
+        .confirmation-container p b {
+            color: #e74c3c; /* Highlight the name with a red color */
+            font-weight: 600;
+        }
+
+        /* Button Group for alignment */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px; /* Space between buttons */
+        }
+
+        /* Base Button Styles */
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px); /* Subtle lift on hover */
+        }
+
+        /* Destructive "Delete" Button */
+        .btn-delete {
+            background-color: #e74c3c; /* A clear, warning red */
+            color: #ffffff;
+        }
+
+        .btn-delete:hover {
+            background-color: #c0392b; /* Darker red on hover */
+        }
+
+        /* Neutral "Cancel" Button */
+        .btn-cancel {
+            background-color: #95a5a6; /* A neutral gray */
+            color: #ffffff;
+        }
+
+        .btn-cancel:hover {
+            background-color: #7f8c8d; /* Darker gray on hover */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="confirmation-container">
+        <h2>Delete Employee</h2>
+        <p>Are you sure you want to delete <b>{{ employee.full_name }}</b>?</p>
+        <p>This action cannot be undone.</p>
+
+        <form method="POST" style="display: inline;">
+            {% csrf_token %}
+            <div class="button-group">
+                <button type="submit" class="btn btn-delete">Yes, Delete Employee</button>
+                <a href="{% url 'employee_list' %}" class="btn btn-cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

@@ -1,23 +1,185 @@
-<h2>Update Employee</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Employee</title>
+    <style>
+        /* General Body Styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6; /* Light gray background */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
 
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
+        /* Form Container */
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px; /* Constrain max width for larger screens */
+        }
 
-    <input type="text" name="full_name" value="{{ employee.full_name }}" required>
-    <input type="email" name="email" value="{{ employee.user.email }}" required>
-    <input type="text" name="phone" value="{{ employee.phone }}" required>
-    <input type="text" name="position" value="{{ employee.position }}" required>
+        /* Heading Style */
+        h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
 
-    <select name="department">
-        {% for dept in departments %}
-            <option value="{{ dept.dept_id }}"
-                {% if employee.department_id == dept.dept_id %}selected{% endif %}>
-                {{ dept.dept_name }}
-            </option>
-        {% endfor %}
-    </select>
+        /* Form Group for each field */
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-    <input type="file" name="profile_photo">
+        /* Label Styles */
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+        }
 
-    <button type="submit">Update</button>
-</form>
+        /* Input and Select Field Styles */
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box; /* Important for padding and width to work together */
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        /* Focus effect for inputs and select */
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="tel"]:focus,
+        .form-group select:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+            outline: none; /* Remove default outline */
+        }
+
+        /* File Input Styling (This is a common trick to style file inputs) */
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 12px 15px;
+            background-color: #ecf0f1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            color: #333;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .file-input-label:hover {
+            background-color: #bdc3c7;
+        }
+        
+        /* Submit Button Style */
+        .btn-submit {
+            display: inline-block;
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #3498db; /* A pleasant blue */
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #2980b9; /* Darker blue on hover */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Update Employee</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="id_full_name">Full Name</label>
+                <input type="text" id="id_full_name" name="full_name" value="{{ employee.full_name }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="id_email">Email</label>
+                <input type="email" id="id_email" name="email" value="{{ employee.user.email }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="id_phone">Phone Number</label>
+                <input type="tel" id="id_phone" name="phone" value="{{ employee.phone }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="id_position">Position</label>
+                <input type="text" id="id_position" name="position" value="{{ employee.position }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="id_department">Department</label>
+                <select name="department" id="id_department" required>
+                    {% for dept in departments %}
+                        <option value="{{ dept.dept_id }}"
+                            {% if employee.department_id == dept.dept_id %}selected{% endif %}>
+                            {{ dept.dept_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="id_profile_photo">Profile Photo</label>
+                <div class="file-input-wrapper">
+                    <label for="id_profile_photo" class="file-input-label">
+                        Choose file...
+                    </label>
+                    <input type="file" id="id_profile_photo" name="profile_photo">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">Update Employee</button>
+        </form>
+    </div>
+
+</body>
+</html>

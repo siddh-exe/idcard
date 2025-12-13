@@ -1,17 +1,279 @@
-<h2>Admin Users</h2>
+<!-- A container to help with layout and styling -->
+<div class="form-container">
+    <!-- Styled Dashboard Link -->
+    <a href="{% url 'dashboard' %}" class="btn-back">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
 
-<table border="1">
-    <tr>
-        <th>Email</th>
-        <th>Staff</th>
-        <th>Superuser</th>
-    </tr>
+    <div class="admin-table-container">
+        <!-- Added an icon to the title -->
+        <h2><i class="fas fa-users-cog"></i> Admin Users</h2>
 
-    {% for admin in admins %}
-    <tr>
-        <td>{{ admin.email }}</td>
-        <td>{{ admin.is_staff }}</td>
-        <td>{{ admin.is_superuser }}</td>
-    </tr>
-    {% endfor %}
-</table>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th><i class="fas fa-envelope"></i> Email</th>
+                    <th><i class="fas fa-user-check"></i> Staff Status</th>
+                    <th><i class="fas fa-user-shield"></i> Superuser Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for admin in admins %}
+                <tr>
+                    <!-- Added data-label for mobile view -->
+                    <td data-label="Email">{{ admin.email }}</td>
+                    <td data-label="Staff Status">
+                        {% if admin.is_staff %}
+                            <span class="status-badge status-success"><i class="fas fa-check"></i> Yes</span>
+                        {% else %}
+                            <span class="status-badge status-danger"><i class="fas fa-times"></i> No</span>
+                        {% endif %}
+                    </td>
+                    <td data-label="Superuser Status">
+                        {% if admin.is_superuser %}
+                            <span class="status-badge status-success"><i class="fas fa-check"></i> Yes</span>
+                        {% else %}
+                            <span class="status-badge status-danger"><i class="fas fa-times"></i> No</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="no-data">
+                        <i class="fas fa-inbox"></i>
+                        <p>No admin users found.</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- IMPORTANT: Add Font Awesome for the icons to work -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    /* --- General Body & Font Styling --- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    /* A subtle gradient background for more visual interest */
+    background: linear-gradient(135deg, #f4f6f9 0%, #e9ecef 100%);
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+/* --- Page Container & Back Button --- */
+.form-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #5a6c7d;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 20px;
+    transition: color 0.2s ease;
+}
+
+.btn-back i {
+    transition: transform 0.2s ease;
+}
+
+.btn-back:hover {
+    color: #3498db;
+}
+
+.btn-back:hover i {
+    transform: translateX(-3px); /* Slide the arrow on hover */
+}
+
+/* --- Container for the Table --- */
+.admin-table-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07); /* A softer, more modern shadow */
+    border: 1px solid #e3e8ee;
+    /* Add a subtle animation on page load */
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* --- Keyframes for the load animation --- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Table Title --- */
+.admin-table-container h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 26px;
+    font-weight: 700;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-table-container h2 i {
+    color: #3498db; /* A consistent blue for icons */
+}
+
+/* --- The Table Itself --- */
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 15px;
+    overflow: hidden;
+    border-radius: 8px; /* Apply border-radius to the table itself */
+}
+
+/* --- Table Header Styling --- */
+.admin-table thead th {
+    background: linear-gradient(to bottom, #5a6c7d, #4a5a6a);
+    color: #ffffff;
+    font-weight: 600;
+    text-align: left;
+    padding: 16px 20px;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.7px;
+}
+
+.admin-table thead th i {
+    margin-right: 8px;
+    opacity: 0.8;
+}
+
+/* --- Table Body and Row Styling --- */
+.admin-table tbody tr {
+    border-bottom: 1px solid #eef2f7;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Zebra-striping for rows */
+.admin-table tbody tr:nth-of-type(even) {
+    background-color: #fcfdff;
+}
+
+/* Hover effect for rows */
+.admin-table tbody tr:hover {
+    background-color: #f8faff;
+    transform: scale(1.01);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    z-index: 1;
+}
+
+/* --- Table Cell Styling --- */
+.admin-table td {
+    padding: 18px 20px;
+    vertical-align: middle;
+}
+
+/* --- Enhanced Status Badge Styling --- */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow to badges */
+}
+
+.status-badge i {
+    font-size: 11px;
+}
+
+.status-success {
+    background-color: #2ecc71;
+}
+
+.status-danger {
+    background-color: #e74c3c;
+}
+
+/* --- "No Data" State Styling --- */
+.no-data {
+    text-align: center !important;
+    padding: 40px 20px !important;
+    color: #a0aec0;
+    font-size: 16px;
+}
+
+.no-data i {
+    font-size: 48px;
+    margin-bottom: 15px;
+    display: block;
+    opacity: 0.5;
+}
+
+.no-data p {
+    margin: 0;
+    font-weight: 500;
+}
+
+/* --- Responsive Design for Mobile --- */
+@media (max-width: 768px) {
+    .admin-table-container {
+        padding: 20px;
+    }
+
+    .admin-table thead {
+        display: none; /* Hide the original header */
+    }
+
+    .admin-table, .admin-table tbody, .admin-table tr, .admin-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .admin-table tr {
+        margin-bottom: 20px;
+        border: 1px solid #eef2f7;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .admin-table td {
+        text-align: right; /* Align content to the right */
+        padding-left: 50%; /* Make space for the label */
+        position: relative;
+        border-bottom: 1px solid #eef2f7;
+    }
+
+    .admin-table td:last-child {
+        border-bottom: none;
+    }
+
+    /* This is where the magic happens for the mobile labels */
+    .admin-table td::before {
+        content: attr(data-label); /* Use the data-label attribute from the HTML */
+        position: absolute;
+        left: 15px;
+        width: calc(50% - 30px);
+        padding-right: 10px;
+        text-align: left;
+        font-weight: 600;
+        color: #5a6c7d;
+    }
+}
+</style>

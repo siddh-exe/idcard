@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Department</title>
+    <style>
+        /* General Body & Container Styles (Consistent with other pages) */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        .admin-container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* Heading Style */
+        h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        /* Form Group & Input Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+            outline: none;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.1s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background-color: #3498db; /* Blue for primary action */
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6; /* Gray for secondary action */
+            color: #ffffff;
+        }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="admin-container">
+        <h2>Edit Department</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_dept_name">Department Name</label>
+                <!-- Manually rendered input with class and pre-filled value -->
+                <input type="text" id="id_dept_name" name="dept_name" 
+                       class="form-control" 
+                       value="{{ department.dept_name }}" 
+                       required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Department</button>
+        </form>
+
+        <br><br>
+        <!-- 
+             NOTE: It's often better to link back to the department list page 
+             instead of the "add" page. Change the URL name if needed.
+        -->
+        <a href="{% url 'add_department' %}" class="btn btn-secondary">⬅ Back</a>
+    </div>
+
+</body>
+</html>
