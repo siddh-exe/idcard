@@ -1,0 +1,72 @@
+/* --- General Body & Layout --- */
+/* This will center the login form vertically and horizontally */
+.login-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Use viewport height to ensure it fills the screen */
+    background-color: #f0f2f5; /* A light grey background for the page */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+}
+
+/* --- The Form Card --- */
+/* This is the white box containing the form */
+.login-form-card {
+    background: #ffffff;
+    padding: 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    width: 100%;
+    max-width: 400px; /* Max width for larger screens */
+    text-align: center;
+}
+
+/* --- Form Elements --- */
+.login-form-card h2 {
+    margin-bottom: 25px;
+    color: #1c1e21;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.form-input {
+    width: 100%; /* Make inputs take up the full width of the card */
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #dddfe2;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box; /* Important: ensures padding doesn't affect the final width */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus state */
+}
+
+.form-input:focus {
+    outline: none; /* Remove the default browser outline */
+    border-color: #1877f2; /* A blue color for the focused input */
+    box-shadow: 0 0 0 2px #e7f3ff; /* A subtle blue glow */
+}
+
+.login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1877f2; /* A vibrant blue for the button */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer; /* Change cursor to a pointer on hover */
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #166fe5; /* A slightly darker blue on hover */
+}
+
+/* --- Error Message --- */
+.error-message {
+    color: #fa383e; /* A clear red color for errors */
+    margin-top: 20px;
+    font-size: 14px;
+}
