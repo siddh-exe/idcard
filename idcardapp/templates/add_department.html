@@ -1,0 +1,10 @@
+<form method="POST">
+    {% csrf_token %}
+
+    <div>
+        <label>Department Name</label>
+        {{ form.dept_name }}
+    </div>
+
+    <button type="submit">Add Department</button>
+</form>

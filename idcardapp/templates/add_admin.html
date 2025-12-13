@@ -1,0 +1,23 @@
+<h2>Add Admin</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Email</label>
+    {{ form.email }}
+
+    <label>Password</label>
+    {{ form.password }}
+
+    <button type="submit">Create Admin</button>
+</form>
+
+{% if form.errors %}
+    <ul style="color:red;">
+        {% for field in form %}
+            {% for error in field.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endif %}

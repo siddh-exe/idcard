@@ -1,0 +1,17 @@
+<h2>Admin Users</h2>
+
+<table border="1">
+    <tr>
+        <th>Email</th>
+        <th>Staff</th>
+        <th>Superuser</th>
+    </tr>
+
+    {% for admin in admins %}
+    <tr>
+        <td>{{ admin.email }}</td>
+        <td>{{ admin.is_staff }}</td>
+        <td>{{ admin.is_superuser }}</td>
+    </tr>
+    {% endfor %}
+</table>
