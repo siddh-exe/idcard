@@ -15,11 +15,11 @@ urlpatterns = [
   path("employees/update/<int:emp_id>/", views.update_employee, name="update_employee"),
   path("employees/delete/<int:emp_id>/", views.delete_employee, name="delete_employee"),
   path("add-admin/", views.add_admin, name="add_admin"),
-  path("login/", views.user_login, name="login"),
+  path("", views.user_login, name="login"),
   path("admins/", views.admin_list, name="admin_list"),
   path("id-card/", views.id_card_list, name="id_card_list"),
   path("id-card/<int:emp_id>/", views.generate_id_card, name="generate_id_card"),
-  path("", views.dashboard, name="dashboard"),
+  path("dashboard", views.dashboard, name="dashboard"),
 
 
 
