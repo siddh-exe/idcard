@@ -1,5 +1,6 @@
 from django import forms
 from .models import Department
+from django.contrib.auth import get_user_model
 
 class DepartmentForm(forms.ModelForm):
     class Meta:
@@ -12,12 +13,7 @@ class DepartmentForm(forms.ModelForm):
             })
         }
 
-
-
 # your_app/forms.py
-
-from django import forms
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
