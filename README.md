@@ -146,7 +146,8 @@ Responsive UI design
 
 ## 👨‍💻 Author
 
-Siddhesh
+**Siddhesh**
+
 Python & Django Developer
 ---
 
