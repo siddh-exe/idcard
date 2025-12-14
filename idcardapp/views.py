@@ -1,13 +1,15 @@
 from urllib import request
-from django.shortcuts import render
-
+from .models import Department, Employee
+from django.contrib.auth import get_user_model
+from .forms import DepartmentForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
+from .forms import AdminCreateForm
+from django.contrib.auth import authenticate, login
 # Create your views here.
 def index(request):
      return render(request, "idcardapp/index.html")
-
-from django.shortcuts import render, redirect
-from .models import Department, Employee
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
@@ -47,12 +49,6 @@ def add_employee(request):
 
 # print(request.POST)
 
-from django.shortcuts import render, redirect
-from .forms import DepartmentForm
-
-from .models import Department
-from .forms import DepartmentForm
-
 def add_department(request):
     query = request.GET.get("q")
 
@@ -78,12 +74,6 @@ def add_department(request):
         "query": query
     })
 
-
-
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Department
-from .forms import DepartmentForm
-
 def edit_department(request, dept_id):
     department = get_object_or_404(Department, dept_id=dept_id)
 
@@ -99,10 +89,6 @@ def edit_department(request, dept_id):
         "form": form
     })
 
-
-from django.contrib import messages
-from .models import Department
-
 def delete_department(request, dept_id):
     department = get_object_or_404(Department, dept_id=dept_id)
 
@@ -117,17 +103,11 @@ def delete_department(request, dept_id):
     messages.success(request, "Department deleted successfully.")
     return redirect("add_department")
 
-
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Employee, Department
-from django.contrib.auth import get_user_model
-
 User = get_user_model()
 
 def employee_list(request):
     employees = Employee.objects.select_related("department", "user")
     return render(request, "employee_list.html", {"employees": employees})
-
 
 def update_employee(request, emp_id):
     employee = get_object_or_404(Employee, emp_id=emp_id)
@@ -158,8 +138,6 @@ def update_employee(request, emp_id):
         }
     )
 
-
-
 def delete_employee(request, emp_id):
     employee = get_object_or_404(Employee, emp_id=emp_id)
 
@@ -168,11 +146,6 @@ def delete_employee(request, emp_id):
         return redirect("employee_list")
 
     return render(request, "delete_employee.html", {"employee": employee})
-
-
-
-from django.contrib.auth.decorators import login_required, user_passes_test
-from .forms import AdminCreateForm
 
 def is_admin(user):
     return user.is_superuser
@@ -190,10 +163,6 @@ def add_admin(request):
 
     return render(request, "add_admin.html", {"form": form})
 
-
-
-from django.contrib.auth import authenticate, login
-
 def user_login(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -209,18 +178,11 @@ def user_login(request):
 
     return render(request, "login.html")
 
-
-from django.contrib.auth import get_user_model
-
 User = get_user_model()
 
 def admin_list(request):
     admins = User.objects.filter(is_superuser=True)
     return render(request, "admin_list.html", {"admins": admins})
-
-
-
-from .models import Employee
 
 def id_card_list(request):
     employees = Employee.objects.select_related("department")
@@ -230,11 +192,6 @@ def id_card_list(request):
 def generate_id_card(request, emp_id):
     employee = get_object_or_404(Employee, emp_id=emp_id)
     return render(request, "id_card.html", {"employee": employee})
-
-
-from django.contrib.auth.decorators import login_required
-from .models import Employee, Department
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
