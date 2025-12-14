@@ -62,6 +62,7 @@ This application allows admins to manage **employees, departments, admins**, and
 ---
 
 ## 📂 Project Structure
+```bash
 idcard/
 │── idcard/ # Project settings
 │── idcardapp/ # Main application
@@ -73,7 +74,7 @@ idcard/
 │── media/ # Uploaded profile photos
 │── static/ # CSS / JS files
 │── manage.py
-
+```
 ---
 
 ## ⚙️ Installation & Setup
@@ -145,7 +146,8 @@ Responsive UI design
 
 ## 👨‍💻 Author
 
-Siddhesh
+**Siddhesh**
+
 Python & Django Developer
 ---
 
